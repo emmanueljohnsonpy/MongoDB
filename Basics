@@ -1,0 +1,77 @@
+Mongo DB        SQL
+--------        ---
+Database        Database
+Collections     Tables
+Documents       Rows
+Fields          Columns
+
+
+Create Database     :- use nameofDB
+
+List Database       :- show dbs
+
+Current Database    :- db
+
+Delete Database     :- db.dropDatabase()    # First switch to that db
+
+Create Collection   :- db.createCollection("collection_name")  
+
+List Collection     :- show collections
+
+Delete Collection   :- db.collection_name.drop()
+
+Insert Document     :- db.collection_name.insert(
+                            {
+                                key1: "Value"
+                                key2: 123
+                            }
+                            )
+
+List Document       :- db.collection_name.find()    
+
+List Document       :- db.collection_name.find().pretty()
+format
+
+Insert multiple     :- db.collection_name.insert(
+Documents                   [
+                            {
+                                key1: "Value1",
+                                key2: "Value2",
+                                key3: "Value3"
+                            },
+                            {
+                                key1: "Value1",
+                                key2: "Value2",
+                                key3: "Value3"
+                            }
+                            ]
+                            ) 
+
+Update Document     :- db.collection_name.update({"currently_key": "currently_value"},     # In currently key choose Unique one
+                                                 {$set: {"new_key_name": "new_value_name"}})    
+                    eg:-
+                       db.product.update({'product_name": "Apple"}, {$set: {"price": 450}})
+
+Delete Document     :- db.collection_name.remove({'key': 'value'})  
+ 
+Remove all          :- db.collection_name.remove({})
+
+Query Document      :- db.collection_name.find({'key': 'value'})
+
+Limit method        :- db.collection_name.find().limit(count) 
+
+skip method         :- db.collection_name.find().limit(count).skip(count)
+
+Query operators     :- db.collection_name.find({key: {$eq: value}})
+                       db.collection_name.find({key: {$ne: value}})
+                       db.collection_name.find({key: {$gt: value}}) 
+                       db.collection_name.find({key: {$gte: value}})
+                       db.collection_name.find({key: {$lt: value}})
+                       db.collection_name.find({key: {$lte: value}})
+                       db.collection_name.find({key: {$in: ['value1', 'value2', ...]}})
+
+Logical operators   :- db.collection_name.find({$and: [{key1: {$eq: value1}}, {key2: {$lte: value2}}]})
+                       db.collection_name.find({$or: [{key1: {$eq: 'value1'}}, {key2: {$eq: value2}}]})
+                       db.collection_name.find({$nor: [{key1: {$eq: value1}}, {key2: {$lte: value2}}]})
+                       db.collection_name.find({key: {$not: {$eq: 'value'}}})   
+                       db.collection_name.find({key: {$nin: ['value1', 'value2', ...]}})
