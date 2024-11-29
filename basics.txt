@@ -7,17 +7,12 @@ Fields          Columns
 
 
 Create Database     :- use nameofDB
-
 List Database       :- show dbs
-
 Current Database    :- db
-
 Delete Database     :- db.dropDatabase()    # First switch to that db
 
 Create Collection   :- db.createCollection("collection_name")  
-
 List Collection     :- show collections
-
 Delete Collection   :- db.collection_name.drop()
 
 Insert Document     :- db.collection_name.insert(
@@ -26,12 +21,9 @@ Insert Document     :- db.collection_name.insert(
                                 key2: 123
                             }
                             )
-
 List Document       :- db.collection_name.find()    
-
 List Document       :- db.collection_name.find().pretty()
 format
-
 Insert multiple     :- db.collection_name.insert(
 Documents                   [
                             {
@@ -46,20 +38,14 @@ Documents                   [
                             }
                             ]
                             ) 
-
 Update Document     :- db.collection_name.update({"currently_key": "currently_value"},     # In currently key choose Unique one
                                                  {$set: {"new_key_name": "new_value_name"}})    
                     eg:-
                        db.product.update({'product_name": "Apple"}, {$set: {"price": 450}})
-
 Delete Document     :- db.collection_name.remove({'key': 'value'})  
- 
 Remove all          :- db.collection_name.remove({})
-
 Query Document      :- db.collection_name.find({'key': 'value'})
-
 Limit method        :- db.collection_name.find().limit(count) 
-
 skip method         :- db.collection_name.find().limit(count).skip(count)
 
 Query operators     :- db.collection_name.find({key: {$eq: value}})

@@ -1,0 +1,89 @@
+Insertion   :- db.collection.insertMany([
+                { /* document 1 */ },
+                { /* document 2 */ },
+                { /* document 3 */ },
+                // Add more documents as needed
+            ]);
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+1. How many users are active ?
+
+db.users.aggregate([
+    {$match: {isActive: true}}, 
+    {$count: 'ActiveUsers:'}
+])
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. What is the average age of all users ?
+
+db.users.aggregate([
+... {$group: {_id: null, "Average Age":{$avg: "$age"}}}
+... ])
+
+db.users.aggregate([ 
+    { $group: { _id: "$gender", "Average Age": { $avg: "$age" } } }
+    ])
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. List the top 5 most commom favorite fruits among the users ?
+
+db.users.aggregate([{$group: {_id:'$favoriteFruit', TotalCount:{$sum: 1}}}, {$sort: }]) ;
+
+db.users.aggregate([{$group: {_id: '$favoriteFruit', count: {$sum: 1}}}, {$sort: {count: -1}}])  # 1 for ascending roder
+
+db.users.aggregate([{$group: {_id: '$favoriteFruit', count: {$sum: 1}}}, {$sort: {count: -1}}, {$limit: 2}]) 
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4. Find the total number of males and females ?
+
+db.users.aggregate([{$group: {_id: '$gender', count: {$sum: 1}}}])
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+5. Which country has the highest number of registered users ?
+
+db.users.aggregate([{$group: {_id: "$company.location.country", "Users count": {$sum: 1}}}, {$sort: {"Users count": -1}}, {$limit: 1}])
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+6. List all unique eye colors present in the collection ?
+
+db.users.aggregate([{$group: {_id: "$eyeColor"}}])
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+7. What is the average number of tags per user ?
+
+db.users.aggregate([{$unwind: "$tags"}, {$group: {_id: "$_id", NumberOfTags: {$sum: 1}}}, {$group: {_id: null, "Average is : ":{$avg: '$NumberOfTags'}}}])
+
+alternative way,
+
+db.users.aggregate([{$addFields: {numberOfTags: {$size: {$ifNull: ["$tags", []]}}}}, {$group: {_id: null, Average: {$avg: "$numberOfTags"}}}])
+
+# Using project for exclude id in output
+
+db.users.aggregate([{$addFields: {numberOfTags: {$size: {$ifNull: ["$tags", []]}}}}, {$group: {_id: null, Average: {$avg: "$numberOfTags"}}}, {$project: {_id:0, Average: 1}}])
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+8. How many users have 'enim' as one of their tags ?
+
+db.users.aggregate([{$match: {tags: "enim"}}, {$count: "Result"}])
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+9. What are the names and age of users who are inactive and have 'velit' as a tag ?
+
+db.users.aggregate([{$match: {isActive: false, tags: "velit"}}, {$project: {_id: 0, name: 1, age: 1}}])
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+10. How many users have a phone number starting with '+1 (940)' ?
+
+db.users.aggregate([{$match: {"company.phone": /^\+1 \(940\)/}}, {$count: "special_phone_count"}])    # Output try to choose no containing spaces between words
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
