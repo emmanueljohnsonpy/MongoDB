@@ -87,3 +87,45 @@ db.users.aggregate([{$match: {isActive: false, tags: "velit"}}, {$project: {_id:
 db.users.aggregate([{$match: {"company.phone": /^\+1 \(940\)/}}, {$count: "special_phone_count"}])    # Output try to choose no containing spaces between words
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+11. Who has registered the most recently ?
+
+db.users.aggregate([{$sort: {registered: -1}}, {$limit: 1}, {$project: {_id: 0, name: 1, registered: 1, favoriteFruit: 1}}])
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+12. Categorize users by their favorite fruit ?
+
+db.users.aggregate([{$group: {_id: '$favoriteFruit', users: {$push: '$name'}}}])
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+13. How many users have 'ad' as the second tag in their list of tags ?
+
+db.users.aggregate([{$match: {"tags.1": "ad"}}, {$count: "secondTagAd"}])
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+14. Find users who have both 'enim' and 'id' as their tags ?
+
+db.users.aggregate([{$match: {tags: {$all: ['enim', 'id']}}}])
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+15. List all companies located in the USA with their corresponding user count ?
+
+db.users.aggregate([
+  { $match: { 'company.location.country': 'USA' } },
+  { $group: { _id: '$company.title', countOfUsers: { $sum: 1 } } }
+])
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Looks Ups
+
+db.books.aggregate([{$lookup: {from: 'authors', localField: 'author_id', foreignField: '_id', as: 'author_details'}}])
+db.books.aggregate([{$lookup: {from: 'authors', localField: 'author_id', foreignField: '_id', as: 'author_details'}}, {$addFields: {author_details: {$first: '$author_details'}}}])
+db.books.aggregate([{$lookup: {from: 'authors', localField: 'author_id', foreignField: '_id', as: 'author_details'}}, {$addFields: {author_details: {$arrayElemAt: ['$author_details', 0]}}}])
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
