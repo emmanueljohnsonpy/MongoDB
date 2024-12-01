@@ -1,0 +1,26 @@
+databaseName   - students
+collectionName - student
+
+Create database     :- use students 
+createCollection
+InsertData          :- db.student.insertOne({name: "Sachin", age: 40, email: "sachin@gmail.com"})
+InsertData          :- db.student.insertMany([
+                       { name: "Alice", age: 25, email: "alice@example.com" },
+                       { name: "Bob", age: 28, email: "bob@example.com" },
+                       { name: "Charlie", age: 35, email: "charlie@example.com" }
+                       ])
+                       
+                       alternative way, 
+
+                       data=({srn: 120, sname: "Mbappe", degree: "PSG", sem: 10, CGPA: 10})
+                       db.student.insert(data)
+
+find                :- db.student.find()
+findOne             :- db.student.findOne({ name: "Messi" })
+sort                :- db.student.find().sort({sname: 1})
+limit               :- db.student.find().limit(3)
+skip                :- db.student.find().skip(8).limit(2)
+distinct            :- db.student.distinct("sem")
+projection          :- db.student.find({}, {_id: 0, sname: 1, CGPA: 1})
+
+

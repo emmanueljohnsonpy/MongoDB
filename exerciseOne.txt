@@ -1,0 +1,36 @@
+// 1. Display all the documents
+db.student.find();
+
+// 2. Display all the students in BCA
+db.student.find({ degree: "BCA" });
+
+// 3. Display all the students in ascending order
+db.student.find().sort({ srn: 1 });
+
+// 4. Display the first 5 students
+db.student.find().limit(5);
+
+// 5. Display students 5, 6, 7
+db.student.find().skip(4).limit(3);
+
+// 6. List the degree of student "Rahul"
+db.student.find({ sname: "Rahul" }, { degree: 1, _id: 0 });
+
+// 7. Display students 5, 6, 7 in descending order of percentage
+// Assuming CGPA corresponds to percentage
+db.student.find().skip(4).limit(3).sort({ CGPA: -1 });
+
+// 8. Display the number of students in BCA
+db.student.countDocuments({ degree: "BCA" });
+
+// 9. Display all the degrees without _id
+db.student.find({}, { degree: 1, _id: 0 });
+
+// 10. Display all the distinct degrees
+db.student.distinct("degree");
+
+// 11. Display all the BCA students with CGPA greater than 6 but less than 7.5
+db.student.find({ degree: "BCA", CGPA: { $gt: 6, $lt: 7.5 } });
+
+// 12. Display all the BCA students in the 6th Semester
+db.student.find({ degree: "BCA", sem: 6 });

@@ -69,5 +69,81 @@ Logical operators   :- db.collection_name.find({$and: [{key1: {$eq: value1}}, {k
 
 
 
+# Create Database
+use ecommerceDB
+
+# List Databases
+show dbs
+
+# Current Database
+db
+
+# Delete Database
+db.dropDatabase()
+
+# Create Collection
+db.createCollection("products")
+
+# List Collections
+show collections
+
+# Delete Collection
+db.products.drop()
+
+# Insert Single Document
+db.products.insert({
+    product_name: "Apple",
+    price: 500,
+    category: "Fruits"
+})
+
+# List Documents
+db.products.find()
+
+# List Documents in Pretty Format
+db.products.find().pretty()
+
+# Insert Multiple Documents
+db.products.insert([
+    { product_name: "Apple", price: 500, category: "Fruits" },
+    { product_name: "Banana", price: 100, category: "Fruits" }
+])
+
+# Update Document
+db.products.update(
+    { product_name: "Apple" }, 
+    { $set: { price: 450 } }
+)
+
+# Delete Document
+db.products.remove({ product_name: "Apple" })
+
+# Remove All Documents
+db.products.remove({})
+
+# Query Document
+db.products.find({ category: "Fruits" })
+
+# Limit Documents
+db.products.find().limit(5)
+
+# Skip Documents
+db.products.find().limit(5).skip(5)
+
+# Query Operators
+db.products.find({ price: { $eq: 500 } })          # Equal to
+db.products.find({ price: { $ne: 500 } })          # Not equal to
+db.products.find({ price: { $gt: 300 } })          # Greater than
+db.products.find({ price: { $gte: 300 } })         # Greater than or equal to
+db.products.find({ price: { $lt: 600 } })          # Less than
+db.products.find({ price: { $lte: 500 } })         # Less than or equal to
+db.products.find({ category: { $in: ["Fruits", "Vegetables"] } })  # In a list
+
+# Logical Operators
+db.products.find({ $and: [{ price: { $gte: 400 } }, { category: { $eq: "Fruits" } }] })  # AND
+db.products.find({ $or: [{ category: { $eq: "Fruits" } }, { price: { $lt: 200 } }] })    # OR
+db.products.find({ $nor: [{ category: { $eq: "Fruits" } }, { price: { $lt: 100 } }] })   # NOR
+db.products.find({ price: { $not: { $eq: 500 } } })                                   # NOT
+db.products.find({ category: { $nin: ["Fruits", "Electronics"] } })                  # NOT IN a list
 
 
