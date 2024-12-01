@@ -61,3 +61,13 @@ Logical operators   :- db.collection_name.find({$and: [{key1: {$eq: value1}}, {k
                        db.collection_name.find({$nor: [{key1: {$eq: value1}}, {key2: {$lte: value2}}]})
                        db.collection_name.find({key: {$not: {$eq: 'value'}}})   
                        db.collection_name.find({key: {$nin: ['value1', 'value2', ...]}})
+
+
+
+
+
+
+
+
+
+
