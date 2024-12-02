@@ -1,0 +1,65 @@
+// MongoDB Update Modifiers Examples
+
+// $set: Update or create a field
+db.collection.updateOne(
+  { _id: 1 },
+  { $set: { name: "John", age: 30 } }
+);
+
+// $unset: Remove a field
+db.collection.updateOne(
+  { _id: 1 },
+  { $unset: { address: "" } }
+);
+
+// $inc: Increment (or decrement) a numeric field
+db.collection.updateOne(
+  { _id: 2 },
+  { $inc: { age: 1 } } // Increment age by 1
+);
+db.collection.updateOne(
+  { _id: 2 },
+  { $inc: { score: -5 } } // Decrement score by 5
+);
+
+// $push: Add an element to an array
+db.collection.updateOne(
+  { _id: 3 },
+  { $push: { colors: "red" } }
+);
+
+// $pushAll: Add multiple elements to an array (deprecated, use $push with $each)
+db.collection.updateOne(
+  { _id: 3 },
+  { $push: { colors: { $each: ["blue", "green"] } } }
+);
+
+// $pull: Remove an element from an array
+db.collection.updateOne(
+  { _id: 3 },
+  { $pull: { colors: "red" } }
+);
+
+// $pullAll: Remove multiple elements from an array
+db.collection.updateOne(
+  { _id: 3 },
+  { $pullAll: { colors: ["blue", "green"] } }
+);
+
+// $addToSet: Add a unique element to an array
+db.collection.updateOne(
+  { _id: 4 },
+  { $addToSet: { colors: "yellow" } }
+);
+
+// Combining Modifiers: Use multiple update operators in one query
+db.collection.updateOne(
+  { _id: 5 },
+  {
+    $set: { status: "active" },
+    $inc: { score: 10 },
+    $addToSet: { tags: "unique-tag" }
+  }
+);
+
+

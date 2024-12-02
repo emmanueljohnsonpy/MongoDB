@@ -32,5 +32,15 @@ db.student.distinct("degree");
 // 11. Display all the BCA students with CGPA greater than 6 but less than 7.5
 db.student.find({ degree: "BCA", CGPA: { $gt: 6, $lt: 7.5 } });
 
+or 
+
+db.student.find({
+  degree: "BCA",
+  $or: [
+    { CGPA: { $gt: 6 } },
+    { CGPA: { $lt: 7.5 } }
+  ]
+});
+
 // 12. Display all the BCA students in the 6th Semester
 db.student.find({ degree: "BCA", sem: 6 });
