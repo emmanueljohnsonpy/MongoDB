@@ -1,0 +1,59 @@
+// Switch to the database
+use bookdb;
+
+// Insert sample documents
+db.book.insertMany([
+    { isbn: "e40", bname: "let us C", author: ["yeshanth", "kanaka"], year: 2012, publisher: "pearson", price: 100 },
+    { isbn: "e41", bname: "java", author: ["rudresh", "kanaka"], year: 2015, publisher: "pearson", price: 200 },
+    { isbn: "e42", bname: "python programming", author: ["herbet"], year: 2018, publisher: "wiley", price: 150 },
+    { isbn: "e43", bname: "data structures", author: ["kuvempu"], year: 2020, publisher: "mcgraw hill", price: 180 },
+    { isbn: "e44", bname: "let us see", author: ["rama", "kanaka"], year: 2021, publisher: "pearson", price: 120 }
+]);
+
+// 1. Display all the documents
+print("1. Display all the documents:");
+
+
+// 2. Display all the book names except year and price
+print("2. Display all the book names except year and price:");
+
+
+// 3. Display all the books authored by rudresh
+
+
+
+// 4. List all the books published by Pearson
+print("4. List all the books published by Pearson:");
+
+
+// 5. List the publisher of the book 'java'
+print("5. List the publisher of the book 'java':");
+
+
+// 6. List the author, publisher, and year of the book 'let us see'
+
+
+
+// 7. Display the price of 'let us see' except _id
+print("7. Display the price of 'let us see' except _id:");
+
+
+// 8. Sort and display all books in ascending order of book names
+print("8. Sort and display all books in ascending order of book names:");
+
+
+// 9. Sort and display only 3 books in descending order of price
+print("9. Sort and display only 3 books in descending order of price:");
+
+
+// 10. Display all the books written by herbet and kuvempu
+print("10. Display all the books written by herbet and kuvempu:");
+
+
+// 11. Display all the books either written by herbet or kuvempu
+print("11. Display all the books either written by herbet or kuvempu:");
+
+
+// 12. Display all the books where rama is the first author
+print("12. Display all the books where rama is the first author:");
+

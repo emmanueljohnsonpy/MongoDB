@@ -1,0 +1,106 @@
+// Switch to the database
+use fooddb;
+
+// Insert sample documents
+db.food.insertMany([
+    {
+        foodid: 1,
+        foodcat: "fastfood",
+        foodname: "burger",
+        chefname: ["naveen", "rakesh"],
+        price: 500,
+        ingredients: ["cheese", "corn"],
+        hotelname: "mcburger",
+        address: { no: 31, street: "belroad", locality: "yelahanka", city: "bangalore" }
+    },
+    {
+        foodid: 2,
+        foodcat: "fastfood",
+        foodname: "pizza",
+        chefname: ["rahul", "ankit"],
+        price: 700,
+        ingredients: ["tomato", "cheese", "capsicum"],
+        hotelname: "dominoes",
+        address: { no: 11, street: "mg road", locality: "indiranagar", city: "bangalore" }
+    },
+    {
+        foodid: 3,
+        foodcat: "maincourse",
+        foodname: "biryani",
+        chefname: ["sanjeev", "vishal"],
+        price: 400,
+        ingredients: ["rice", "chicken", "spices"],
+        hotelname: "biryani hub",
+        address: { no: 91, street: "btm layout", locality: "jayanagar", city: "bangalore" }
+    },
+    {
+        foodid: 4,
+        foodcat: "dessert",
+        foodname: "icecream",
+        chefname: ["akash", "ravi"],
+        price: 150,
+        ingredients: ["milk", "sugar"],
+        hotelname: "cool delight",
+        address: { no: 45, street: "brigade road", locality: "whitefield", city: "bangalore" }
+    },
+    {
+        foodid: 5,
+        foodcat: "snacks",
+        foodname: "sandwich",
+        chefname: ["rohit", "tarun"],
+        price: 200,
+        ingredients: ["bread", "butter", "vegetables"],
+        hotelname: "snack house",
+        address: { no: 23, street: "church street", locality: "koramangala", city: "bangalore" }
+    }
+]);
+
+// 1. List the price of pizza with ingredients
+db.food.find({ foodname: "pizza" }, { price: 1, ingredients: 1, _id: 0 });
+
+// 2. Display the item in the price range (500, 800)
+db.food.find({ price: { $gte: 500, $lte: 800 } });
+
+// 3. Display the item prepared by x and y
+db.food.find({ chefname: { $all: ["x", "y"] } });
+
+// 4. Display the item prepared by x or y
+db.food.find({ chefname: { $in: ["x", "y"] } });
+
+// 5. Add one chef to the food pizza
+db.food.updateOne({ foodname: "pizza" }, { $addToSet: { chefname: "new_chef" } });
+
+// 6. Add ingredients to the food Burger
+db.food.updateOne({ foodname: "burger" }, { $addToSet: { ingredients: "lettuce" } });
+
+// 7. Delete last ingredient added to the food burger
+db.food.updateOne({ foodname: "burger" }, { $pop: { ingredients: 1 } });
+
+// 8. Delete all the ingredients from the food biryani
+db.food.updateOne({ foodname: "biryani" }, { $set: { ingredients: [] } });
+
+// 9. Add food type to the food burger
+db.food.updateOne({ foodname: "burger" }, { $set: { foodtype: "veg" } });
+
+// 10. Modify the burger price by 200
+db.food.updateOne({ foodname: "burger" }, { $inc: { price: 200 } });
+
+// 11. Add or insert a new food item with the food Id “f08” using upsert as True
+db.food.updateOne(
+    { foodid: "f08" },
+    {
+        $set: {
+            foodcat: "beverages",
+            foodname: "coffee",
+            chefname: ["shyam"],
+            price: 100,
+            ingredients: ["coffee", "milk"],
+            hotelname: "coffee corner",
+            address: { no: 50, street: "mall road", locality: "banashankari", city: "bangalore" }
+        }
+    },
+    { upsert: true }
+);
+
+// 12. Increment the price of all food items in food cat: fastfood by 120
+db.food.updateMany({ foodcat: "fastfood" }, { $inc: { price: 120 } });

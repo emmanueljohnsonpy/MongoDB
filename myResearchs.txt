@@ -24,3 +24,27 @@ distinct            :- db.student.distinct("sem")
 projection          :- db.student.find({}, {_id: 0, sname: 1, CGPA: 1})
 
 
+// 1. Delete a Database
+use "shopDB";    // Switch to the 'shopDB' database
+db.dropDatabase();  // Delete the 'shopDB' database
+
+// 2. Delete a Collection
+db.products.drop();   // Delete the 'products' collection from the 'shopDB' database
+
+// 3. Delete a Single Document
+db.products.deleteOne({ "product_id": 12345 });  // Delete the first product with product_id 12345
+
+// 4. Delete Multiple Documents
+db.products.deleteMany({ "category": "electronics" });  // Delete all products in the 'electronics' category
+
+// 5. Delete a Field from a Document
+db.products.updateOne(
+  { "product_id": 12345 },          // Find the product with product_id 12345
+  { $unset: { "discount": "" } }    // Remove the 'discount' field from that product
+);
+
+// For Multiple Documents
+db.products.updateMany(
+  { "category": "electronics" },    // Find all products in the 'electronics' category
+  { $unset: { "warranty": "" } }    // Remove the 'warranty' field from all electronics products
+);

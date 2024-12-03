@@ -145,5 +145,5 @@ db.products.find({ $or: [{ category: { $eq: "Fruits" } }, { price: { $lt: 200 } 
 db.products.find({ $nor: [{ category: { $eq: "Fruits" } }, { price: { $lt: 100 } }] })   # NOR
 db.products.find({ price: { $not: { $eq: 500 } } })                                   # NOT
 db.products.find({ category: { $nin: ["Fruits", "Electronics"] } })                  # NOT IN a list
-
+    
 
